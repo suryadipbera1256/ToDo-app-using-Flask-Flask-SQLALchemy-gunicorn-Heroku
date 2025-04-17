@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+<style>
+  /* Custom CSS for colors and animations */
+  nav {
+      background-color: #071f23; /* Light background color */
+  }
+  h1 {
+      color: #000000; /* Primary color for headings */
+  }
+  .btn {
+      transition: background-color 0.3s ease; /* Smooth transition for button background */
+  }
+  .btn:hover {
+      background-color: #00ffcc; /* Darker shade on hover */
+      color: rgb(0, 0, 0); /* Change text color on hover */
+  }
+  .alert {
+      background-color: #f2cbcb; /* Light green background for alerts */
+      color: #000000; /* Dark green text color */
+  }
+</style>
+      <hr>
+      <div class="container , my-3">
+        <h1>Add Your ToDo</h1>
+        <form action="/" method="POST">
+          <div class="mb-3">
+            <input type="text" class="form-control" name = "title" id="title" aria-describedby="emailHelp" placeholder="Enter Titel">
+            <div id="Help" class="form-text">We'll never share your Notes with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" name = "desc" id="desc" placeholder="Write Your Notes">
+          </div>
+          <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </form>
+      </div>
+      <hr>
+      <div class="container ,my-3 ">
+        <h1>ToDo List</h1>
+        
+            {% if alltodo|length == 0 %}
+
+            <div class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Sorry!</h4>
+              <p>Aww yeah, Frist you  add something that you can see in Table .</p>
+              <hr>
+              <p class="mb-0">Whenever you need to, add some thing  to keep things nice and tidy.</p>
+            </div>
+              {% else %}
+              <table class="table">
+                
+                <thead>
+                  <tr>
+                    <th scope="col">No</th> <!--table header -->
+                    <th scope="col">Titel</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date & Time</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                    {% for T in alltodo %} <!-- jinja 2 snippet kit used here ; alltodo = val ,which return bt render_template -->
+                    <tr>
+                      <th scope="row">{{loop.index}}</th> <!-- loop.index is used to get the index of the loop -->
+                      <td>{{T.title}}</td> <!-- T.titel is the value of the key "titel" in the dictionary T -->
+                      <td>{{T.desc}}</td> <!-- T.desc is the value of the key "desc" in the dictionary T -->
+                      <td>{{T.date_created}}</td>
+                      <td>
+                        <a href="/delete/{{T.No}}" type = "button" class="btn btn-outline-danger mx-2">Delete</button>
+                        <a href="/update/{{T.No}}" type = "button" class="btn btn-outline-success mx-2">Update</button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                </tbody> 
+
+             </table>
+
+             <!-- jinja 2 snippet kit used here -->
+            {% endif %}
+
+   
+      </div>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    {% endblock body %}
